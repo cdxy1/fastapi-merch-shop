@@ -30,6 +30,7 @@ dependencies = [
     "locust>=2.32.9,<3",
     "asyncpg>=0.30.0,<0.31",
     "psycopg2-binary>=2.9.10,<3",
+    "loguru>=0.7.3",
 ]
 
 [tool.uv]
