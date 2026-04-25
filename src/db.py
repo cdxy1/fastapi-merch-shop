@@ -1,6 +1,6 @@
 from typing import Optional
 
-from app.config import config
+from src.config import config
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,

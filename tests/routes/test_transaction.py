@@ -4,13 +4,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.purchase import PurchaseModel
-from app.models.user import UserModel
-from app.schemas.response import (
+from src.models.purchase import PurchaseModel
+from src.models.user import UserModel
+from src.schemas.response import (
     ResponseSchema,
 )
-from app.schemas.transaction import SendSchema
-from app.schemas.user import UserInSchema
+from src.schemas.transaction import SendSchema
+from src.schemas.user import UserInSchema
 
 ACCESS_TOKEN = None
 

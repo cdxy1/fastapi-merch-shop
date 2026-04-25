@@ -3,12 +3,12 @@ from fastapi import status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.user import UserModel
-from app.schemas.response import (
+from src.models.user import UserModel
+from src.schemas.response import (
     ResponseSchema,
 )
-from app.schemas.user import UserInSchema
-from app.utils.security import verify_password
+from src.schemas.user import UserInSchema
+from src.utils.security import verify_password
 
 ACCESS_TOKEN = None
 

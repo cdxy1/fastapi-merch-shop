@@ -4,9 +4,9 @@ import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
 
-from app.db import Database, database
-from app.main import app
-from app.models.item import ItemModel
+from src.db import Database, database
+from src.main import app
+from src.models.item import ItemModel
 
 TEST_DATABASE = Database("sqlite+aiosqlite:///:memory:")
 
@@ -57,5 +57,5 @@ def mock_redis():
     mock.get_value.return_value = "mock_refresh_token"
     mock.set_value.return_value = None
     mock.delete_value.return_value = None
-    with patch("app.utils.security.redis_client", mock):
+    with patch("src.utils.security.redis_client", mock):
         yield mock

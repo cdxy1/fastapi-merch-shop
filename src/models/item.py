@@ -2,7 +2,7 @@ from typing import List
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db import Base
+from src.db import Base
 
 
 class ItemModel(Base):

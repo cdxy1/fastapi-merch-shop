@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Optional
 
-from app.config import config
+from src.config import config
 from fastapi import HTTPException
 from redis import ConnectionError, Redis
 from redis import asyncio as aioredis
