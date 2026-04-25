@@ -1,5 +1,4 @@
-import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
@@ -15,7 +14,7 @@ pwd_context = CryptContext(["bcrypt"])
 oauth2_schema = OAuth2PasswordBearer("/auth")
 
 
-def hash_password(password: str):
+def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
 
@@ -23,48 +22,52 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def create_access_token(
-    data: dict,
-) -> str:
+def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.now() + timedelta(minutes=30)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=30)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, config.security.jwt_secret_key, os.getenv("ALGORITHM"))
-    return encoded_jwt
+    return jwt.encode(to_encode, config.security.jwt_secret_key, config.security.jwt_algorithm)
 
 
-async def create_refresh_token(
-    username: str,
-) -> str:
+async def create_refresh_token(user_id: str) -> str:
     expire = timedelta(days=30)
     encoded_jwt = jwt.encode(
-        {"sub": username},
+        {"sub": user_id},
         config.security.jwt_secret_key,
-        os.getenv("ALGORITHM"),
+        config.security.jwt_algorithm,
     )
-    await redis_client.set_value(username, encoded_jwt, expire)
+    await redis_client.set_value(user_id, encoded_jwt, expire)
     return encoded_jwt
+
+
+async def get_refresh_token(user_id: str) -> str | None:
+    return await redis_client.get_value(user_id)
+
+
+async def delete_refresh_token(user_id: str) -> None:
+    await redis_client.delete_value(user_id)
 
 
 def decode_access_token(token: Annotated[str, Depends(oauth2_schema)]) -> dict:
     try:
-        payload = jwt.decode(token, config.security.jwt_secret_key, os.getenv("ALGORITHM"))
+        payload = jwt.decode(
+            token, config.security.jwt_secret_key, [config.security.jwt_algorithm]
+        )
         exp = payload.get("exp")
-
-        if not exp or datetime.now() >= datetime.utcfromtimestamp(exp):
+        if not exp or datetime.now(timezone.utc) >= datetime.fromtimestamp(
+            exp, tz=timezone.utc
+        ):
             raise HTTPException(status_code=401, detail="Token expired or invalid")
         return payload
-
     except DecodeError:
         raise HTTPException(status_code=401, detail="Token decode error")
 
 
-def user_id_from_token(token: Annotated[str, Depends(oauth2_schema)]) -> dict:
+def user_id_from_token(token: Annotated[str, Depends(oauth2_schema)]) -> str:
     try:
-        payload = jwt.decode(token, config.security.jwt_secret_key, os.getenv("ALGORITHM"))
-        user = payload.get("sub")
-
-        return user
-
+        payload = jwt.decode(
+            token, config.security.jwt_secret_key, [config.security.jwt_algorithm]
+        )
+        return payload.get("sub")
     except DecodeError:
         raise HTTPException(status_code=401, detail="Token decode error")
