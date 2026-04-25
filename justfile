@@ -12,3 +12,9 @@ lint:
 
 fmt:
   uv run ruff format .
+
+migrate:
+  uv run alembic revision --autogenerate -m "$(msg)"
+
+upgrade:
+  uv run alembic upgrade head
