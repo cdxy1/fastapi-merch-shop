@@ -95,3 +95,7 @@ ruff.toml
 
 # DB
 *.db
+
+# GitHub
+LICENSE
+README.md
