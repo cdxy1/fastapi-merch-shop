@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import HTTPException
 from redis import ConnectionError, Redis
 from redis import asyncio as aioredis
-from starlette import status
+from fastapi import status
 
 from src.config import config
 
