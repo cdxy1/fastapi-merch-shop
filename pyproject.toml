@@ -1,32 +1,40 @@
-[tool.poetry]
-name = "AvitoService"
+[project]
+name = "fastapi-merch-shop"
 version = "0.1.0"
 description = ""
-authors = ["Artem Minkin <cdxy@list.ru>"]
+authors = [{ name = "Artem Minkin", email = "cdxy@list.ru" }]
+requires-python = ">=3.12,<4"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "fastapi[standart]>=0.115.8,<0.116",
+    "uvicorn>=0.34.0,<0.35",
+    "sqlalchemy>=2.0.37,<3",
+    "passlib>=1.7.4,<2",
+    "pyjwt>=2.10.1,<3",
+    "bcrypt>=4.2.1,<5",
+    "python-multipart>=0.0.20,<0.0.21",
+    "python-dotenv>=1.0.1,<2",
+    "aiosqlite>=0.21.0,<0.22",
+    "greenlet>=3.1.1,<4",
+    "alembic>=1.14.1,<2",
+    "redis[hiredis]>=5.2.1,<6",
+    "ruff>=0.9.6,<0.10",
+    "pytest-asyncio>=0.25.3,<0.26",
+    "httpx>=0.28.1,<0.29",
+    "pytest-cov>=6.0.0,<7",
+    "locust>=2.32.9,<3",
+    "asyncpg>=0.30.0,<0.31",
+    "psycopg2-binary>=2.9.10,<3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-fastapi = {extras = ["standart"], version = "^0.115.8"}
-uvicorn = "^0.34.0"
-sqlalchemy = "^2.0.37"
-passlib = "^1.7.4"
-pyjwt = "^2.10.1"
-bcrypt = "^4.2.1"
-python-multipart = "^0.0.20"
-python-dotenv = "^1.0.1"
-aiosqlite = "^0.21.0"
-greenlet = "^3.1.1"
-alembic = "^1.14.1"
-redis = {extras = ["hiredis"], version = "^5.2.1"}
-ruff = "^0.9.6"
-pytest-asyncio = "^0.25.3"
-httpx = "^0.28.1"
-pytest-cov = "^6.0.0"
-locust = "^2.32.9"
-asyncpg = "^0.30.0"
-psycopg2-binary = "^2.9.10"
-
+[tool.uv]
+package = false
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
