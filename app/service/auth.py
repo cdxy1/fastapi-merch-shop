@@ -69,7 +69,9 @@ class AuthService:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный запрос."
             )
-        await UserRepository.update_password(session, user.id, hash_password(new_password))
+        await UserRepository.update_password(
+            session, user.id, hash_password(new_password)
+        )
 
     @staticmethod
     async def logout(user_id: str) -> None:

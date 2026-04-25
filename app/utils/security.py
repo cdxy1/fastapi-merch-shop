@@ -26,7 +26,9 @@ def create_access_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=30)
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, config.security.jwt_secret_key, config.security.jwt_algorithm)
+    return jwt.encode(
+        to_encode, config.security.jwt_secret_key, config.security.jwt_algorithm
+    )
 
 
 async def create_refresh_token(user_id: str) -> str:

@@ -7,7 +7,5 @@ from app.models.item import ItemModel
 class ItemRepository:
     @staticmethod
     async def get_by_name(session: AsyncSession, name: str) -> ItemModel | None:
-        result = await session.execute(
-            select(ItemModel).where(ItemModel.name == name)
-        )
+        result = await session.execute(select(ItemModel).where(ItemModel.name == name))
         return result.scalars().first()

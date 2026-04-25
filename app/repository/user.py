@@ -7,9 +7,7 @@ from app.models.user import UserModel
 class UserRepository:
     @staticmethod
     async def get_by_id(session: AsyncSession, user_id: int) -> UserModel | None:
-        result = await session.execute(
-            select(UserModel).where(UserModel.id == user_id)
-        )
+        result = await session.execute(select(UserModel).where(UserModel.id == user_id))
         return result.scalars().first()
 
     @staticmethod
