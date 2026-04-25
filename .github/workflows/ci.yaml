@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      ALGORITHM: HS256
+      SECRET_KEY: 1d71f45a8fabef7e5808084a59dbedc4383a7e61a0cd0dbc30bec11b678a2b24
+      EXPIRATION_SECONDS: 3600
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: merch_db
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install python
+        run: uv python install 3.13
+
+      - name: Install deps
+        run: uv sync
+
+      - name: Run linter
+        run: uv run ruff check .
+
+      - name: Run tests
+        run: uv run pytest -v
