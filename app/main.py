@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from .routes.auth import router as auth_router
-from .routes.transaction import router as transaction_router
-from .schemas.response import ResponseSchema
-from .utils.redis import redis_client
+from app.routes.auth import router as auth_router
+from app.routes.transaction import router as transaction_router
+from app.schemas.response import ResponseSchema
+from app.utils.redis import redis_client
 
 
 @asynccontextmanager

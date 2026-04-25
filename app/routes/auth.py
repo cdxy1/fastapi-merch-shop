@@ -5,15 +5,15 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import JSONResponse
 
-from ..db import database
-from ..schemas.response import (
+from app.db import database
+from app.schemas.response import (
     AccessTokenResponseSchema,
     AuthResponseSchema,
     ResponseSchema,
 )
-from ..schemas.user import ChangePasswordScheme, UserInSchema
-from ..service.auth import AuthService
-from ..utils.security import decode_access_token, user_id_from_token
+from app.schemas.user import ChangePasswordScheme, UserInSchema
+from app.service.auth import AuthService
+from app.utils.security import decode_access_token, user_id_from_token
 
 router = APIRouter(tags=["Auth"])
 

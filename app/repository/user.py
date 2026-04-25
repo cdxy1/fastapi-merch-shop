@@ -1,7 +1,7 @@
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..models.user import UserModel
+from app.models.user import UserModel
 
 
 class UserRepository:

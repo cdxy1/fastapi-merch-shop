@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.responses import JSONResponse
 
-from ..db import database
-from ..schemas.response import ResponseSchema
-from ..schemas.transaction import SendSchema
-from ..service.transaction import TransactionService
-from ..utils.security import decode_access_token
+from app.db import database
+from app.schemas.response import ResponseSchema
+from app.schemas.transaction import SendSchema
+from app.service.transaction import TransactionService
+from app.utils.security import decode_access_token
 
 router = APIRouter(tags=["Transaction"])
 

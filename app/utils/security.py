@@ -8,7 +8,7 @@ from jwt import DecodeError
 from passlib.context import CryptContext
 
 from app.config import config
-from .redis import redis_client
+from app.utils.redis import redis_client
 
 pwd_context = CryptContext(["bcrypt"])
 oauth2_schema = OAuth2PasswordBearer("/auth")

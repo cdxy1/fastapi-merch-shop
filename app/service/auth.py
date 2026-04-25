@@ -2,9 +2,9 @@ from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..repository.user import UserRepository
-from ..schemas.user import UserDBSchema, UserInSchema
-from ..utils.security import (
+from app.repository.user import UserRepository
+from app.schemas.user import UserDBSchema, UserInSchema
+from app.utils.security import (
     create_access_token,
     create_refresh_token,
     delete_refresh_token,

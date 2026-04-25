@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..models.item import ItemModel
+from app.models.item import ItemModel
 
 
 class ItemRepository:
