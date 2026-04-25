@@ -122,6 +122,19 @@ curl http://localhost:8000/api/info \
 }
 ```
 
+### Коды ответов
+
+| Код | Описание |
+|-----|----------|
+| `200` | Успех |
+| `201` | Создано (регистрация) |
+| `400` | Неверный запрос (недостаток монет, неверный пароль) |
+| `401` | Не авторизован |
+| `403` | Доступ запрещён |
+| `404` | Не найдено |
+| `409` | Пользователь уже существует |
+| `503` | Redis недоступен |
+
 ### Товары
 
 При запуске через `alembic upgrade head` в БД сидируются 11 товаров:
@@ -229,6 +242,79 @@ uv run pytest -v
 - Покупку товара (успех / недостаток монет / товар не найден)
 - Перевод монет (успех / недостаток / получатель не найден)
 - Получение информации о пользователе
+
+## Деплой в Minikube
+
+PostgreSQL и Redis запускаются локально (через `docker compose` или нативно). Приложение деплоится в minikube и обращается к ним через `host.docker.internal`.
+
+### Требования
+
+```bash
+brew install minikube kubectl
+minikube start --driver=docker
+```
+
+### Структура манифестов
+
+```
+k8s/
+├── configmap.yaml   # ALGORITHM, REDIS_HOST, POSTGRES_HOST и т.д.
+├── secrets.yaml     # SECRET_KEY, POSTGRES_PASSWORD
+├── deployment.yaml  # Deployment (5 реплик), NodePort сервис
+└── service.yaml     # NodePort :30007
+```
+
+### Сборка образа
+
+Образ собирается внутри Docker-контекста minikube через `docker compose build` — имя образа берётся из `docker-compose.yml`:
+
+```bash
+eval $(minikube docker-env)
+docker compose build
+```
+
+### Деплой
+
+```bash
+kubectl apply -f k8s/
+```
+
+Применить миграции:
+
+```bash
+kubectl exec deploy/merch-shop-api -- alembic upgrade head
+```
+
+Узнать адрес сервиса:
+
+```bash
+minikube service merch-shop-api-service --url
+# → http://<minikube-ip>:30007
+```
+
+### Обновление после изменений в коде
+
+```bash
+eval $(minikube docker-env)
+docker compose build
+kubectl rollout restart deployment/merch-shop-api
+```
+
+### Полезные команды
+
+```bash
+# логи
+kubectl logs -l app=merch-shop-api -f
+
+# статус подов
+kubectl get pods
+
+# зайти в под
+kubectl exec -it deploy/merch-shop-api -- /bin/bash
+
+# применить миграции
+kubectl exec deploy/merch-shop-api -- alembic upgrade head
+```
 
 ## Лицензия
 
