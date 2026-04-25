@@ -8,7 +8,7 @@ from app.schemas.response import (
     ResponseSchema,
 )
 from app.schemas.user import UserInSchema
-from app.utils.security_utils import verify_password
+from app.utils.security import verify_password
 
 ACCESS_TOKEN = None
 

@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from .routes.auth import router as auth_router
 from .routes.transaction import router as transaction_router
 from .schemas.response import ResponseSchema
-from .utils.redis_utils import redis_client
+from .utils.redis import redis_client
 
 
 @asynccontextmanager

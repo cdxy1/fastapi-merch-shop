@@ -35,7 +35,7 @@ async def test_login(client, session: AsyncSession, mock_redis):
 
 
 @pytest.mark.asyncio
-async def test_buy_item_success(client, create_init_data, session: AsyncSession):
+async def test_buy_item_success(client, session: AsyncSession):
     response = client.post(
         "/buy/t-shirt",
         headers={

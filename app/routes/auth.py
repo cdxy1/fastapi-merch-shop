@@ -16,8 +16,8 @@ from ..schemas.response import (
 )
 from ..schemas.user import ChangePasswordScheme, UserDBSchema, UserInSchema
 from ..utils.info_utils import get_user_info
-from ..utils.redis_utils import redis_client
-from ..utils.security_utils import (
+from ..utils.redis import redis_client
+from ..utils.security import (
     create_access_token,
     create_refresh_token,
     decode_access_token,

@@ -23,7 +23,7 @@ from ..utils.info_utils import (
     get_user_transfers,
     process_transfers,
 )
-from ..utils.security_utils import decode_access_token
+from ..utils.security import decode_access_token
 from ..utils.transaction_utils import check_balance, get_item_by_name
 
 router = APIRouter(tags=["Transaction"])
