@@ -22,3 +22,18 @@ class RedisConfig:
     @property
     def connection_string(self) -> str:
         return f"redis://{self.host}:{self.port}"
+
+class SecurityConfig:
+    def __init__(self):
+        self.jwt_secret_key = os.getenv("SECRET_KEY")
+        self.jwt_algorithm = os.getenv("ALGORITHM")
+        self.jwt_expiration_seconds = int(os.getenv("EXPIRATION_SECONDS", "3600"))
+        
+
+class Config:
+    def __init__(self):
+        self.postgres = PostgresConfig()
+        self.redis = RedisConfig()
+        self.security = SecurityConfig()
+        
+config = Config()
