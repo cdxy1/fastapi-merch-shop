@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.transaction import PurchaseModel
+from app.models.purchase import PurchaseModel
 from app.models.user import UserModel
 from app.schemas.response import (
     ResponseSchema,

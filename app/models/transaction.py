@@ -21,15 +21,3 @@ class TransferModel(Base):
     receiver: Mapped["UserModel"] = relationship(  # noqa: F821
         foreign_keys=[to_user_id], back_populates="received_transfers"
     )
-
-
-class PurchaseModel(Base):
-    __tablename__ = "purchases"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    item_id: Mapped[int] = mapped_column(ForeignKey("items.id"))
-    pub_date: Mapped[datetime] = mapped_column(default=datetime.utcnow)
-
-    user: Mapped["UserModel"] = relationship(back_populates="purchases")  # noqa: F821
-    item: Mapped["ItemModel"] = relationship(back_populates="purchases")  # noqa: F821

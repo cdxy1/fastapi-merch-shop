@@ -1,7 +1,8 @@
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.transaction import PurchaseModel, TransferModel
+from app.models.transaction import TransferModel
+from app.models.purchase import PurchaseModel
 from app.repository.item import ItemRepository
 from app.repository.transaction import TransactionRepository
 from app.repository.user import UserRepository
