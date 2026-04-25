@@ -1,6 +1,6 @@
-import os
 from typing import Optional
 
+from app.config import config
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -16,10 +16,8 @@ Base = declarative_base()
 
 
 class Database:
-    def __init__(self, database_url: Optional[str] = None):
-        self.DATABASE_URL = (
-            database_url if database_url is not None else os.getenv("DATABASE_URL")
-        )
+    def __init__(self, db_url: Optional[str] = None):
+        self.DATABASE_URL = db_url if db_url else config.postgres.connection_string
         self.engine = create_async_engine(self.DATABASE_URL)
         self.async_session = async_sessionmaker(
             self.engine,

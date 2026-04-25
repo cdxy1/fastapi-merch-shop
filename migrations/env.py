@@ -1,17 +1,16 @@
+import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-
+from sqlalchemy.engine import Connection
+from sqlalchemy.ext.asyncio import create_async_engine
+from app.config import config as _config
 from app.db import Base
-from app.models.item import ItemModel
-from app.models.transaction import PurchaseModel, TransferModel
-from app.models.user import UserModel
 
-ItemModel, UserModel, TransferModel, PurchaseModel
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -41,7 +40,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = _config.postgres.connection_string
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -53,24 +52,31 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
+def do_run_migrations(connection: Connection) -> None:
+    context.configure(connection=connection, target_metadata=target_metadata)
 
-    In this scenario we need to create an Engine
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+async def run_async_migrations() -> None:
+    """In this scenario we need to create an Engine
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
 
-    with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+    connectable = create_async_engine(_config.postgres.connection_string)
 
-        with context.begin_transaction():
-            context.run_migrations()
+    async with connectable.connect() as connection:
+        await connection.run_sync(do_run_migrations)
+
+    await connectable.dispose()
+
+
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
+
+    asyncio.run(run_async_migrations())
 
 
 if context.is_offline_mode():

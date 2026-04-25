@@ -1,19 +1,16 @@
-import os
 from datetime import timedelta
 from typing import Optional
 
-from dotenv import load_dotenv
+from app.config import config
 from fastapi import HTTPException
 from redis import ConnectionError, Redis
 from redis import asyncio as aioredis
 from starlette import status
 
-load_dotenv()
-
 
 class RedisClient:
     def __init__(self):
-        self.redis_url = os.getenv("REDIS_URL")
+        self.redis_url = config.redis.connection_string
         self.redis: Optional[Redis | None] = None
 
     async def connect(self):

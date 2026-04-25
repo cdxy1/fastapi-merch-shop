@@ -1,5 +1,8 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class PostgresConfig:
     def __init__(self):
@@ -11,7 +14,7 @@ class PostgresConfig:
 
     @property
     def connection_string(self) -> str:
-        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
 
 
 class RedisConfig:
