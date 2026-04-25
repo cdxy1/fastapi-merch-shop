@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: merch-shop-config
+data:
+  ALGORITHM: HS256
+  EXPIRATION_SECONDS: "3600"
+  REDIS_HOST: host.docker.internal
+  REDIS_PORT: "6379"
+  POSTGRES_HOST: host.docker.internal
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: admin
+  POSTGRES_DB: merch_db
+  SECRET_KEY: test-secret-key
+  POSTGRES_PASSWORD: "1234"

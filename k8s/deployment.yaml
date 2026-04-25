@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: merch-shop-api
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: merch-shop-api
+  template:
+    metadata:
+      labels:
+        app: merch-shop-api
+    spec:
+      containers:
+        - name: api
+          image: fastapi-merch-shop-fastapi:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: merch-shop-config
+            - secretRef:
+                name: merch-shop-secret
