@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:alpine
-    container_name: postgres_fastapi
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -14,7 +13,6 @@ services:
 
   redis:
     image: redis:alpine
-    container_name: redis_fastapi
     ports:
       - "6379:6379"
     restart: unless-stopped
@@ -23,13 +21,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: avito-shop
     depends_on:
       - postgres
       - redis
     environment:
-      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      REDIS_URL: redis://redis:6379
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT}
+      ALGORITHM: ${ALGORITHM}
+      SECRET_KEY: ${SECRET_KEY}
+      EXPIRATION_SECONDS: ${EXPIRATION_SECONDS}
 
     ports:
       - "8000:8000"
