@@ -10,7 +10,7 @@ from passlib.context import CryptContext
 from src.config import config
 from src.utils.redis import redis_client
 
-pwd_context = CryptContext(["bcrypt"])
+pwd_context = CryptContext(["argon2"], deprecated="auto")
 oauth2_schema = OAuth2PasswordBearer("/auth")
 
 

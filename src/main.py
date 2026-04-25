@@ -48,3 +48,6 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     if exc.status_code == 500:
         error_500_response = ResponseSchema(detail="Внутренняя ошибка сервера.")
         return JSONResponse(status_code=500, content=error_500_response.model_dump())
+    if exc.status_code == 503:
+        error_503_response = ResponseSchema(detail="Сервис недоступен.")
+        return JSONResponse(status_code=503, content=error_503_response.model_dump())
