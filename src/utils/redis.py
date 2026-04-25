@@ -1,11 +1,12 @@
 from datetime import timedelta
 from typing import Optional
 
-from src.config import config
 from fastapi import HTTPException
 from redis import ConnectionError, Redis
 from redis import asyncio as aioredis
 from starlette import status
+
+from src.config import config
 
 
 class RedisClient:

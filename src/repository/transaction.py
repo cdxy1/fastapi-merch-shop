@@ -2,8 +2,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from src.models.transaction import TransferModel
 from src.models.purchase import PurchaseModel
+from src.models.transaction import TransferModel
 
 
 class TransactionRepository:

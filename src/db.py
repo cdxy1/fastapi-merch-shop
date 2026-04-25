@@ -1,6 +1,5 @@
 from typing import Optional
 
-from src.config import config
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
@@ -8,6 +7,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import declarative_base
 
+from src.config import config
 
 Base = declarative_base()
 
