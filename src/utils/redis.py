@@ -1,10 +1,9 @@
 from datetime import timedelta
 from typing import Optional
 
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from redis import ConnectionError, Redis
 from redis import asyncio as aioredis
-from fastapi import status
 
 from src.config import config
 
